@@ -1,0 +1,11 @@
+# Ignore the following folders
+venv/
+__pycache__/
+.idea/
+
+model/__pycache__/
+parameters/__pycache__/
+
+
+# Ignore the following files
+
