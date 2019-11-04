@@ -8,3 +8,11 @@ parameters/__pycache__/
 
 
 # Ignore the following files
+
+packages/Average_top_packages.txt
+packages/Fairness_top_packages.txt
+packages/GR_top_packages.txt
+packages/Model1_top_packages.txt
+packages/Model2_top_packages.txt
+
+
