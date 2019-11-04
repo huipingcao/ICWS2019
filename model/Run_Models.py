@@ -121,16 +121,37 @@ if __name__ == '__main__':
                             print(result_s11)
 
                             '''
-                                Pref_u_P method 1
-                                Pref_u_P method 2
+                                Extract user preferences
                             '''
-                            s12 = base + 'Model1.py -o all -agg ' + str(agg) + ' --pt ' + str(pt)
-                            result_s12 = subprocess.check_output(s12, shell=True)
-                            print(result_s12)
-
-                            s13 = base + 'Model2.py -o all -agg ' + str(agg) + ' --pt ' + str(pt)
+                            s12 = base + 'Extract_User_Preferences.py -o all -agg ' + str(agg) + ' --pt ' + str(pt)
+                            result_s12 = subprocess.check_output( s12, shell=True )
+                            print( result_s12 )
+                            '''
+                                Run models
+                            '''
+                            s13 = base + 'Model1.py -o all -agg ' + str(agg) + ' --pt ' + str(pt)
                             result_s13 = subprocess.check_output(s13, shell=True)
                             print(result_s13)
+
+                            s14 = base + 'Model2.py -o all -agg ' + str(agg) + ' --pt ' + str(pt)
+                            result_s14 = subprocess.check_output(s14, shell=True)
+                            print(result_s14)
+
+                            '''
+                                Run Baselines
+                            '''
+                            s15 = base + 'Fairness_baseline.py -o all --kitems ' + str(t)
+                            result_s15 = subprocess.check_output(s15, shell=True)
+                            print(result_s15)
+
+                            s16 = base + 'Average_baseline.py -o all --kitems ' + str( t )
+                            result_s16 = subprocess.check_output( s16, shell=True )
+                            print( result_s16 )
+
+                            s17 = base + 'GRmodel_baseline.py -o all --kitems ' + str( t )
+                            result_s17 = subprocess.check_output( s17, shell=True )
+                            print( result_s17 )
+
 
                 #print("\033[H\033[J")
 

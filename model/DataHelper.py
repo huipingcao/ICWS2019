@@ -66,6 +66,19 @@ def save_top_packages_list(filename, top_packages):
         for p in top_packages:
             f.write(str(p)+'\n')
 
+def print_agg_method(aggregation):
+    if aggregation == 0:
+        print('Aggregation Method = MEAN')
+    elif aggregation == 1:
+        print('Aggregation Method = MAX')
+    elif aggregation == 2:
+        print('Aggregation Method = MIN')
+    elif aggregation == 3:
+        print('Aggregation Method = GEOMETRIC MEAN')
+    elif aggregation == 4:
+        print('Aggregation Method = SUM')
+    elif aggregation == 5:
+        print('Aggregation Method = MAE')
 
 if __name__ == "__main__":
     pass
