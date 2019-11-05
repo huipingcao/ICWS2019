@@ -42,7 +42,7 @@ Ceh-Varela, E., & Cao, H. (2019, July). Recommending Packages of Multi-Criteria 
         
     + After running the above scripts for all categories (i.e., '-o 1', and '-o 2')
         + python Get_POC.py -o all -G 58,204,41,98
-        + Extract_User_Preferences.py -o all -agg 5 --pt 0
+        + python Extract_User_Preferences.py -o all -agg 5 --pt 0
         
     + To run the models
         + python Model1.py -o all -agg 5 --pt 0
