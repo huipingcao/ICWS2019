@@ -12,6 +12,9 @@ import sys
 from model import DataHelper as dh
 from model import Arguments
 from parameters import common_parameters as p
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.filterwarnings('ignore')
 
 outputfile = ""
 G = []
@@ -24,7 +27,6 @@ def max_items_rated(total_rated, active_user):
             total_item_rated[active_user] = total_rated
     else:
         total_item_rated[active_user] = total_rated
-
 
 
 ###############################################################

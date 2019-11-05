@@ -1,9 +1,7 @@
-'''
-    Parser functions
-'''
-
+#!/usr/bin/python
 import argparse
 import sys
+
 from builtins import print
 
 
@@ -49,17 +47,21 @@ def create_parser(arguments, glob):
         print("Append to output filename: %s" % args.output)
         glob["outputfile"] = args.output
 
+    #print("Output file: %s" % args.output)
     if args.dataset:
         print("Dataset filename: %s" % args.dataset)
         glob["filename"] = args.dataset
+
 
     if args.number:
         print("New threshold must be changed to {}".format(args.number))
         glob["threshold"] = args.number
 
+
     if args.Group:
         print("The group of users G is {}".format(args.Group))
         glob["G"] = [int(item) for item in args.Group.split(',')]
+
 
     if args.users:
         print("Users: {}".format(args.users))
@@ -98,8 +100,10 @@ def create_parser(arguments, glob):
             print('Value not defined for the aggragation function')
             sys.exit(0)
 
+        #print("Aggregation method: {}".format(args.aggregation))
         print("Aggregation method: {}".format(method))
         glob["aggregation"] = args.aggregation
+
 
     if args.pt:
         if args.pt == 0:

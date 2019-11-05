@@ -1,18 +1,17 @@
 '''
-    Module to extract the top-K packages based on  Model2
+    Module to extract the top-K packages based on Model 1
+
 '''
 import sys
 import os.path as o
 sys.path.append(o.abspath(o.join(o.dirname(sys.modules[__name__].__file__), "..")))
-
 import pandas as pd
 from scipy.stats.mstats import gmean
 import numpy as np
-import sys
 from model import DataHelper as dh
-from  itertools import combinations, product
-from model import Arguments
 from parameters import common_parameters as p
+from  itertools import product
+from model import Arguments
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings('ignore')
@@ -20,11 +19,12 @@ warnings.filterwarnings('ignore')
 outputfile = ""
 aggregation = p.agg_function
 pt = p.pt
-df_agg = pd.DataFrame()
 temp_path = p.TEMP_PATH
 data_path = p.DATA_PATH
 packages_path = p.PACKAGES_PATH
 num_packages = p.num_packages
+
+df_agg = pd.DataFrame()
 
 def find_package_probs(row):
     global  df_agg
@@ -94,28 +94,12 @@ def agg_function():
         return mae_aggregation()
 
 
-def print_agg_method():
-    if aggregation == 0:
-        print('Aggregation Method = MEAN')
-    elif aggregation == 1:
-        print('Aggregation Method = MAX')
-    elif aggregation == 2:
-        print('Aggregation Method = MIN')
-    elif aggregation == 3:
-        print('Aggregation Method = GEOMETRIC MEAN')
-    elif aggregation == 4:
-        print('Aggregation Method = SUM')
-    elif aggregation == 5:
-        print('Aggregation Method = MAE')
-
-
 ###############################################################
 if __name__ == "__main__":
-    print("Model2")
+    print("Model 2")
 
     Arguments.create_parser(sys.argv,globals())   #globals(): pass the global vars from one module to another
-
-    print_agg_method()
+    dh.print_agg_method(aggregation)
 
     '''
         Load data from Build_Dense_Matrix
@@ -127,10 +111,8 @@ if __name__ == "__main__":
     top_k_c1 = data[2]
     prob_u_i_c1 = data[3]
     importance_u_i_c1 = data[4]
-
     print('Top C1')
     print(top_k_c1)
-
 
     '''
         Load data from Build_Dense_Matrix
@@ -142,9 +124,9 @@ if __name__ == "__main__":
     top_k_c2 = data[2]
     prob_u_i_c2 = data[3]
     importance_u_i_c2 = data[4]
-
     print('Top C2')
     print(top_k_c2)
+
 
     '''
         Load POC data
@@ -155,17 +137,18 @@ if __name__ == "__main__":
     if pt == 0:
         print('POC Type = Adjusted')
         poc_df = data[3]
-
     else:
         print('POC Type = Normal')
         poc_df = data[1]
+
+    print(poc_df)
 
     '''
         Generate packages
     '''
     packages = list(product(top_k_c1, top_k_c2))
     print('We formed %d packages' % len(packages))
-
+    print(packages)
 
     '''
         Extract cat preferences from POC for CAT 1
@@ -184,11 +167,6 @@ if __name__ == "__main__":
     '''
     sum_prob_u_i_for_G_c1 = prob_u_i_c1.sum(axis=0)
     influence_c1 = sum_prob_u_i_for_G_c1 - prob_u_i_c1
-
-
-    '''
-        Total pref for Cat 1 
-    '''
     pref_u_P_c1 = prob_and_poc_c1.multiply(influence_c1, axis=1)
 
     '''
@@ -209,20 +187,16 @@ if __name__ == "__main__":
     sum_prob_u_i_for_G_c2 = prob_u_i_c2.sum(axis=0)
     influence_c2 = sum_prob_u_i_for_G_c2 - prob_u_i_c2
 
-    '''
-        Total pref for Cat 2 
-    '''
     pref_u_P_c2 = prob_and_poc_c2.multiply(influence_c2, axis=1)
 
     '''
         Users in G
     '''
     G = poc_c1
+    print('Total users in G=', len(G))
     balanced_pref = 1 / len(G)
 
-    '''
-        The MULT part of eq. combining both categories.
-    '''
+    print('Pref(u,P) for G')
     recommended_packages = []
     mae_percentage_data = []
 
@@ -242,6 +216,8 @@ if __name__ == "__main__":
 
     recommended_packages_df = pd.DataFrame(recommended_packages, columns=['item_c1', 'item_c2', 'score'])
     recommended_packages_df['agg_function'] = aggregation
+    print('Top %d packages' % num_packages)
+    print(recommended_packages_df.loc[0:num_packages-1,:])
 
     '''
         Export the list of the Top-k packages
@@ -249,7 +225,25 @@ if __name__ == "__main__":
     top_packages = recommended_packages_df.loc[0:num_packages-1, :]
     top_packages['package'] = top_packages[['item_c1', 'item_c2']].apply(tuple, axis=1)
     top_packages = list(top_packages['package'])
-    print("Top {} packages".format(num_packages))
-    print(top_packages)
-
+    print( "Top {} Packages:".format( num_packages ) )
+    print( top_packages )
     dh.save_top_packages_list( packages_path + "Model2_top_packages.txt", top_packages )
+    data = top_packages
+    dh.save_data(data, packages_path+'Model2_top_Packages.obj')
+    print(mae_percentage_data)
+    data = [recommended_packages, recommended_packages_df, mae_percentage_data, pref_u_P_c1, prob_and_poc_c1,
+            pref_u_P_c2, prob_and_poc_c2]
+    filename = dh.save_data(data, temp_path+'Test_Pref_u_P.obj')
+
+    score = 0
+    if aggregation != 5:
+        t_10 = recommended_packages_df.loc[0:num_packages-1, :]
+        t_10 = t_10.drop(['score', 'agg_function'], axis=1)
+        score = t_10.apply(find_package_probs, axis=1)
+        score = find_score()
+    else:
+        t_10_error_sum = recommended_packages_df.loc[0:num_packages-1, :]
+        score = t_10_error_sum['score'].sum()
+
+    print('Sum of errors=' + str(score))
+    print()

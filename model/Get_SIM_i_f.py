@@ -1,5 +1,5 @@
 '''
-    Get items that satisfy user's features prefernes, and co-cluster-based similarities
+    Get items that satisfy user's features preferences, and co-cluster-based similarities
 '''
 import sys
 import os.path as o
@@ -129,11 +129,9 @@ if __name__ == "__main__":
     sim_C_in_CC = defaultdict(dict)
     i_j_in_CC = []
 
-    #load information from UF_Items
     obj_filename = temp_path+'Find_UF_Items.'+outputfile+'.obj'
     data = dh.load_Data(obj_filename)
     u_f_cc_users = data[0]
-
     print('UF co-clusters =',len(u_f_cc_users))
 
     cc_items_satisfy = data[3]

@@ -1,5 +1,5 @@
 '''
-    Utitity functions for Co-clusters
+    Utility functions for Co-clusters
 '''
 import sys
 import os.path as o
@@ -9,7 +9,7 @@ import pandas as pd
 from collections import defaultdict
 from model import Arguments
 import sys
-from itertools import combinations,permutations
+from itertools import combinations
 import numpy as np
 from parameters import common_parameters as p
 from model import DataHelper as dh
@@ -18,14 +18,10 @@ outputfile = ""
 data_path = p.DATA_PATH
 temp_path = p.TEMP_PATH
 
-def pause():
-    programPause = input("Press the <ENTER> key to continue...")
-
 def read_CC_File(cc_filename):
     with open(cc_filename,'r') as f:
         lines = f.readlines()
 
-        # declarations
         biclusters = defaultdict(list)
         bic = 0
 
@@ -84,7 +80,6 @@ if __name__ == "__main__":
     '''
         obtain the number of rows and columns
     '''
-    # Obtain the unique elements in the biclusters
     for i in range(len(biclusters)):
         unique_rows = unique_rows.union(set(Items_in_Biclusters(biclusters[i], "row")))
         unique_columns = unique_columns.union(set(Items_in_Biclusters(biclusters[i], "col")))
@@ -114,7 +109,6 @@ if __name__ == "__main__":
                 value_in_cell = u_v_in_CC[a][b]
                 u_v_in_CC[a][b] = value_in_cell + 1
                 u_v_in_CC[b][a] = value_in_cell + 1
-            #print()
             count = count + 1
 
     print('Finding |CC_uv|/|CC|')

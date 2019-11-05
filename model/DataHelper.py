@@ -1,14 +1,14 @@
-'''
-    Various Utitity functions for all modules
-'''
+#!/usr/bin/python
+"""
+    Helper Module to manage the dataset
+"""
 import sys
 import os.path as o
 sys.path.append(o.abspath(o.join(o.dirname(sys.modules[__name__].__file__), "..")))
-
+import numpy as np
 import pandas as pd
 import pickle
 import os
-import sys
 
 def manage_folders(folders):
     for folder in folders:
@@ -27,6 +27,32 @@ def manage_folders(folders):
             print("Something went wrong!")
             sys.exit(1)
 
+def generateData_Binomial(rows, columns):
+    print("Generating Syntetic Binomial dataset of ", end="")
+    print("Rows:%d, Columns:%d" % (rows, columns))
+
+    n, p = 6, 0.4
+    result_array = np.empty((0, columns))
+
+    for i in range(rows):
+        result = np.random.binomial(n, p, columns)
+        result_array = np.append(result_array, [result], axis=0)
+
+    df = pd.DataFrame(data=result_array)
+
+    return df
+
+
+def generateData(n, m):
+    print("Generating Syntetic dataset of ", end="")
+    print("Rows:%d, Columns:%d" % (n, m))
+
+    np.random.seed(128)
+    user_index = ["u"+str(i) for i in range(n)]
+    item_index = ["i" + str(i) for i in range(m)]
+    df = pd.DataFrame(np.random.randint(0, 6, size=(n, m)))
+
+    return df
 
 def save_df_to_file(df, filename):
     print("Saving data to file", filename)
@@ -36,7 +62,6 @@ def save_df_to_file(df, filename):
         print("Data was saved!")
     except:
         print("Ups! something went wrong saving the data")
-
 
 def read_file_to_df(filename):
     print("Reading %s" % filename)
@@ -48,12 +73,10 @@ def read_file_to_df(filename):
     except:
         print("Ups! something went wrong loading the data")
 
-
 def save_data(data, filename):
     print('Saving data', filename)
     with open(filename, 'wb') as f:
         pickle.dump(data, f)
-
 
 def load_Data(filename):
     with open(filename, 'rb') as _data:
@@ -79,6 +102,7 @@ def print_agg_method(aggregation):
         print('Aggregation Method = SUM')
     elif aggregation == 5:
         print('Aggregation Method = MAE')
+
 
 if __name__ == "__main__":
     pass

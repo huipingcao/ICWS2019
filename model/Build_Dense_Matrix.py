@@ -119,7 +119,7 @@ if __name__ == "__main__":
     prob_u_i = ratings_G.divide(ratings_G_sum, axis=0)
 
     '''
-            Pick k-top items based on the user's probability mean
+        Pick k-top items based on the user's probability mean
     '''
     print('#'*50)
     '''

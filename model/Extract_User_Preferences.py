@@ -95,7 +95,6 @@ if __name__ == "__main__":
     sum_prob_u_i_for_G_c2 = prob_u_i_c2.sum(axis=0)
     influence_c2 = sum_prob_u_i_for_G_c2 - prob_u_i_c2
     pref_u_P_c2 = prob_and_poc_c2.multiply(influence_c2, axis=1)
-    #print(pref_u_P_c2)
 
     '''
         Export the preferences

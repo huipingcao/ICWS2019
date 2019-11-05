@@ -36,6 +36,7 @@ Ceh-Varela, E., & Cao, H. (2019, July). Recommending Packages of Multi-Criteria 
         + pytho Predict_Ratings.py -o 1 -alpha 0.6
         + python Build_Dense_Matrix.py -o 1 -kitems 20 -G 58,204,41,98
         + python Get_POC.py -o all -G 58,204,41,98
+        + Extract_User_Preferences.py -o all -agg 5 --pt 0
     + To run the models
         + python Model1.py -o all -agg 5 --pt 0
         + python Model2.py -o all -agg 5 --pt 0

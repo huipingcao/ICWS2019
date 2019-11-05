@@ -8,7 +8,7 @@ LOGS_PATH = '../logs/'
 TEMP_PATH = '../temp/'
 DATA_PATH = '../datasets/'
 PACKAGES_PATH = '../packages/'
-folders = ['temp', 'packages']
+folders = ['temp', 'packages', 'logs']
 
 ## Groups' parameters
 # Random seed
@@ -48,7 +48,9 @@ cluster = 0
 cc_rows = 50
 cc_columns = 100
 
-
+## m_envy at least
+at_least_m = 1
+percentage = 0.25
 
 
 

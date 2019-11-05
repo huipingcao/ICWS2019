@@ -48,10 +48,9 @@ if __name__ == "__main__":
     filename = temp_path + 'CC_Utils_data.'+outputfile+'.obj'
     CC_Utils_data = dh.load_Data(filename)
 
-    CC_u_i = CC_Utils_data[0][0]  ##
+    CC_u_i = CC_Utils_data[0][0]
     print('CC_u_i = ', len(CC_u_i))
     df_CC_u_i = find_df_cc()
 
-    # Export data from this module
     data = [df_CC_u_i]
     dh.save_data(data, temp_path + 'Find_UI_items.'+outputfile+'.obj')

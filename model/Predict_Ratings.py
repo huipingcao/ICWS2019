@@ -11,9 +11,13 @@ import sys
 from model import DataHelper as dh
 from parameters import common_parameters as p
 from model import Arguments
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.filterwarnings('ignore')
+
 
 outputfile = ""
-alpha = 0.7
+alpha = 0.6
 temp_path = p.TEMP_PATH
 data_path = p.DATA_PATH
 

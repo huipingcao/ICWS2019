@@ -11,7 +11,6 @@ from model import Arguments
 from model import Find_Biclusters as bic
 from parameters import common_parameters as p
 import sys
-import time
 import _pickle as pickle
 
 outputfile = ""

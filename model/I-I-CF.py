@@ -1,6 +1,9 @@
 '''
+
     Module to calculate the Item-Item Collaborative Filtering
+
 '''
+
 import sys
 import os.path as o
 sys.path.append(o.abspath(o.join(o.dirname(sys.modules[__name__].__file__), "..")))
@@ -16,12 +19,10 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings('ignore')
 
-
 outputfile = ""
 temp_path = p.TEMP_PATH
 data_path = p.DATA_PATH
 G=[]
-
 
 def max_items_rated(total_rated, active_user):
     if active_user in total_item_rated:
@@ -65,8 +66,6 @@ if __name__ == "__main__":
 
     filename = data_path + "M_u_i_dataset." + outputfile + ".txt"
     M_u_i = dh.read_file_to_df( filename )
-
-
     idx = M_u_i.index
     cols = M_u_i.columns
 
